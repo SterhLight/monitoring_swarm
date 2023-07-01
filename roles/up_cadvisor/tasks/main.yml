@@ -1,0 +1,33 @@
+---
+- name: deploy cAdvisor
+#  become: true
+  community.docker.docker_swarm_service:
+    name: Cadvisor
+    image: gcr.io/cadvisor/cadvisor
+#"google/cadvisor-canary:{{ cadvisor_version }}"
+    #state: "present" #используется по умолчанию
+    networks:
+      - name: "{{ network_name }}"
+    publish:
+      - published_port: 8080
+        target_port: 8080
+    replicas: 5
+    mounts:
+# - /:/rootfs:ro
+      - source: /
+        target: /rootfs:ro
+#        type: volume
+#- /var/run:/var/run:rw
+      - source: /var/run
+        target: /var/run:rw
+#        type: volume
+#    - /sys:/sys:ro
+      - source: /sys
+        target: /sys:ro
+#        type: volume
+#    - /var/lib/docker/:/var/lib/docker:ro
+      - source: /var/lib/docker/
+        target: /var/lib/docker:ro
+#    - /dev/disk/:/dev/disk:ro
+      - source: /dev/disk/
+        target: /dev/disk:ro

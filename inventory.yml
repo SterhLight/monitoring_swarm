@@ -1,0 +1,20 @@
+---
+all:
+  children:
+    deploy:
+      hosts:
+        server1:
+          ansible_host: 10.10.10.101
+    managers:
+      hosts:
+        server2:
+          ansible_host: 10.10.10.102
+        server3:
+          ansible_host: 10.10.10.103
+    workers:
+      hosts:
+        server4:
+          ansible_host: 10.10.10.104
+        server5:
+          ansible_host: 10.10.10.105
+

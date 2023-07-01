@@ -1,0 +1,29 @@
+---
+- name: deploy Grafana
+  community.docker.docker_swarm_service:
+    name: Grafana
+    image: "grafana/grafana:{{ grafana_vercion }}"
+    replicas: 1
+    networks:
+      - name: "{{ network_name }}"
+    publish:
+      - published_port: 3000 #80
+        target_port: 3000
+    mounts:
+#      - source: "{{ monitoring_folder }}/grafana/grafana_lib"
+#        target: /var/lib/grafana
+      - source: "{{ monitoring_folder }}/grafana/grafana_datasources"
+        target: /etc/grafana/datasources
+      - source: "{{ monitoring_folder }}/grafana/grafana_dashboards"
+        target: /etc/grafana/dashboards
+      - source: "{{ monitoring_folder }}/grafana/grafana_plugins"
+        target: /var/lib/grafana/plugins
+    env:
+      - GF_SECURITY_ADMIN_USER="{{ gf_user }}" #сменить переменную
+      - GF_SECURITY_ADMIN_PASSWORD="{{ gf_pass }}" # #сменить переменную
+    configs:
+      - config_name: grafana
+        filename: /etc/grafana/grafana.ini
+    placement:
+      constraints:
+        - node.labels.key1 == monitoring

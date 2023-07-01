@@ -1,0 +1,51 @@
+---
+#- name: vsyko
+#  hosts: all
+#  roles:
+#    - preconfig
+
+- name: vsyko
+  hosts: deploy
+  roles:
+#    - swarm_init
+#    - swarm_join_m
+#    - swarm_join_w
+###
+    - create_network
+    - create_folders
+    - create_config
+    - add_labels
+    - up_cadvisor
+    - up_node_exporter
+    - up_prometheus
+#    - up_alertmanager
+    - alertmanager
+    - up_grafana
+#- name: vsyko
+#  hosts: managers
+#  roles:
+#    - swarm_join_m
+#
+#- name: vsyko
+#  hosts: workers
+#  roles:
+#    - swarm_join_w
+
+#- name: vsyko
+#  hosts: deploy
+#  roles:
+###
+#    - create_network
+#    - create_folders
+#    - create_config
+#    - add_labels
+#    - up_cadvisor
+#    - up_node_exporter
+#    - up_prometheus
+#    - up_alertmanager
+#    - up_grafana
+
+
+#    - {role: generate_ssh_keys, tags: ["generate_ssh_keys"]}
+#    - {role: users_add, tags: ["users_add"]}
+#    - {role: authorized_keys_add, tags: ["authorized_keys_add"]}

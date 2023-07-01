@@ -1,0 +1,6 @@
+---
+- ansible.builtin.include_tasks: base.yml
+  tags:
+    - alertmanager
+  vars:
+    tag: alertmanager

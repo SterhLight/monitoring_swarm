@@ -1,0 +1,26 @@
+---
+- name: deploy Prometheus
+  community.docker.docker_swarm_service:
+    name: Prometheus
+    image: "prom/prometheus:{{ prometheus_version }}"
+    replicas: 1
+    networks:
+      - name: "{{ network_name }}"
+    publish:
+      - published_port: 9090
+        target_port: 9090
+    mounts:
+      - source: "{{ monitoring_folder }}/prometheus/prometheus_data"
+        target: /prometheus
+    configs:
+      - config_name: prometheus
+        filename: /etc/prometheus/prometheus.yml
+    placement:
+      constraints:
+        - node.labels.key1 == monitoring
+
+#    depends_on:
+#      - cadvisor
+#    links:
+#      - cadvisor:cadvisor
+#      - alertmanager:alertmanager

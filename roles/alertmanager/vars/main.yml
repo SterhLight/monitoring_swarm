@@ -1,0 +1,3 @@
+---
+image: prom/alertmanager:v0.23.0
+container_name: alertmanager

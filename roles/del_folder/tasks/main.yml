@@ -1,0 +1,16 @@
+---
+- name: Creates directory
+  become: true
+  file:
+    path: /opt/monitoring/"{{ item }}"
+    state: directory
+    mode: 0777
+  loop: "{{ folders }}"
+#  loop:
+#    - grafana
+#    - prometheus
+#    - alertmanager
+#    - cadvisor
+#    - node_exporter
+
+

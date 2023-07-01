@@ -1,0 +1,44 @@
+---
+- name: cope config files
+  become: true
+  block:
+    ### объединить с помощью loop ###
+    - name: copy prometheus.yml
+      copy:
+        src: prometheus.yml
+        dest: "{{ monitoring_folder }}/prometheus/prometheus.yml"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+    - name: copy grafana.ini
+      copy:
+        src: grafana.ini
+        dest: "{{ monitoring_folder }}/grafana/grafana.ini"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+    - name: copy alertmanager.yml
+      copy:
+        src: alertmanager.yml
+        dest: "{{ monitoring_folder }}/alertmanager/alertmanager.yml"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+    #####
+
+    ### объединить с помощью loop ###
+    - name: create config prometheus
+      community.docker.docker_config:
+        name: prometheus
+        data_src: "{{ monitoring_folder }}/prometheus/prometheus.yml"
+        state: present
+    - name: create config grafana
+      community.docker.docker_config:
+        name: grafana
+        data_src: "{{ monitoring_folder }}/grafana/grafana.ini"
+        state: present
+    - name: create config alertmanager.yml
+      community.docker.docker_config:
+        name: alertmanager.yml
+        data_src: "{{ monitoring_folder }}/alertmanager/alertmanager.yml"
+        state: present
+    #####
+
+    ##### alertmng_config.yml - в таске по деплою алертменеджера соотнести с config.yml
