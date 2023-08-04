@@ -1,7 +1,0 @@
----
-- name: Create a network
-  community.docker.docker_network:
-    name: "{{ network_name }}"
-    driver: overlay
-#    ipam_config:
-#      - subnet: 10.254.0.0/24
